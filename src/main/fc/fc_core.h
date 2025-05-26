@@ -49,3 +49,6 @@ void resetFlightTime(void);
 float getArmTime(void);
 
 void fcReboot(bool bootLoader);
+// Msp Override (Shivam Daksh)
+void setMspArmingOverride(bool enabled);
+bool isMspArmingOverride(void);

@@ -2009,15 +2009,15 @@ static mspResult_e mspFcProcessInCommand(uint16_t cmdMSP, sbuf_t *src)
 
     switch (cmdMSP) {
         case MSP_SET_ARM:
-            // no payload to read
-            tryArm();  // invoke the same code path as RC “arm switch”
-            break;
+            setMspArmingOverride(true);
+            tryArm();
+            return MSP_RESULT_ACK;
 
         case MSP_SET_DISARM:
-            // no payload to read
-            disarm(DISARM_NONE);  // you'll need to add DISARM_MSP into your
-                                  // disarmReason_t enum
-            break;
+            setMspArmingOverride(false);
+            disarm(DISARM_SWITCH);
+            return MSP_RESULT_ACK;
+            
         case MSP_SELECT_SETTING:
             if (sbufReadU8Safe(&tmp_u8, src) && (!ARMING_FLAG(ARMED)))
                 setConfigProfileAndWriteEEPROM(tmp_u8);
